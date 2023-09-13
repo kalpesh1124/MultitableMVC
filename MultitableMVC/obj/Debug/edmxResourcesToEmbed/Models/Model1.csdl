@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CompanyDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="stud_qualification">
+    <Key>
+      <PropertyRef Name="qualification_id" />
+    </Key>
+    <Property Name="qualification_id" Type="Int32" Nullable="false" />
+    <Property Name="roll_no" Type="Int32" />
+    <Property Name="qualification" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="student" Relationship="Self.FK__stud_qual__roll___3B75D760" FromRole="stud_qualification" ToRole="student" />
+  </EntityType>
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="roll_no" />
+    </Key>
+    <Property Name="roll_no" Type="Int32" Nullable="false" />
+    <Property Name="stud_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="stud_qualification" Relationship="Self.FK__stud_qual__roll___3B75D760" FromRole="student" ToRole="stud_qualification" />
+  </EntityType>
+  <Association Name="FK__stud_qual__roll___3B75D760">
+    <End Role="student" Type="Self.student" Multiplicity="0..1" />
+    <End Role="stud_qualification" Type="Self.stud_qualification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="roll_no" />
+      </Principal>
+      <Dependent Role="stud_qualification">
+        <PropertyRef Name="roll_no" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CompanyDataEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="stud_qualification" EntityType="Self.stud_qualification" />
+    <EntitySet Name="students" EntityType="Self.student" />
+    <AssociationSet Name="FK__stud_qual__roll___3B75D760" Association="Self.FK__stud_qual__roll___3B75D760">
+      <End Role="student" EntitySet="students" />
+      <End Role="stud_qualification" EntitySet="stud_qualification" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,98 @@
+﻿@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        Qualification = []
+        $(document).ready(function () {
+            $("#addbtn").click(function () {
+                AddQualification();
+            })
+
+            $("#submitbtn").click(function () {
+                AddStudData();
+            })
+        })
+        function AddQualification() {
+            var qid = $("#txtqualid").val();
+            var qname = $("#txtqual").val();
+            sp = { "qualification_id": qid, "qualification": qname };
+            Qualification.push(sp);
+            clearData()
+            DisplayData()
+        }
+
+        function clearData() {
+            $("#txtqualid").val("");
+            $("#txtqual").val("");
+        }
+
+        function DisplayData() {
+            $("#tbldata").empty();
+            $.each(Qualification, function (i, d) {
+                $("#tbldata").append("<tr><td>" + d.qualification_id + "</td><td>" + d.qualification + "</td></tr>");
+            }
+            )
+        }
+
+        function AddStudData()
+        {
+            var r = $("#txtrollno").val();
+            var n = $("#txtname").val();              //table Name         //Array name
+            var st = { "Roll_No": r, "Stud_Name": n, "stud_qualification": Qualification }
+            $.ajax({ //stud => controller Name
+                url: '/stud/Adddata',
+                method: 'Post',
+                data:JSON.stringify(st),      //for convert the data into json 
+                contentType: 'application/json',
+                success: function (resp)
+                {
+                    alert(resp);    //resp = Response
+                }
+            })
+            clearData();
+        }
+
+    </script>
+
+</head>
+<body>
+    <div style="margin-left:500px;">
+        <br />
+        <h2>Create Data</h2>
+
+        <label>Roll_No</label>
+        <input type="text" class="form-control" id="txtrollno" style="width:300px;" />
+
+        <label>Stud_Name</label>
+        <input type="text" class="form-control" id="txtname" style="width:300px;" />
+
+        <label>Qualification_ID</label>
+        <input type="text" class="form-control" id="txtqualid" style="width:300px;" />
+
+        <label>Qualification_Name</label>
+        <input type="text" class="form-control" id="txtqual" style="width:300px;" />
+        <br />
+        <input type="button" class="btn" value="Add Qualification" style="width:300px;background-color:orange;" required id="addbtn" />
+        <br />
+        <br />
+        <input type="submit" class="btn" value="Submit" style="width: 300px; background-color: forestgreen;" required id="submitbtn" />
+
+        <br /><br />
+        <table class="table-responsive table-danger table-striped">
+            <thead>
+                <tr>
+                    <th>Qualification_id</th>
+                    <th>Qualification_Name</th>
+                </tr>
+            </thead>
+            <tbody id="tbldata">
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

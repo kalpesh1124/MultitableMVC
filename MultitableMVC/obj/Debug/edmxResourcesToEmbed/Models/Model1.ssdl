@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CompanyDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="stud_qualification">
+    <Key>
+      <PropertyRef Name="qualification_id" />
+    </Key>
+    <Property Name="qualification_id" Type="int" Nullable="false" />
+    <Property Name="roll_no" Type="int" />
+    <Property Name="qualification" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="roll_no" />
+    </Key>
+    <Property Name="roll_no" Type="int" Nullable="false" />
+    <Property Name="stud_name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__stud_qual__roll___3B75D760">
+    <End Role="student" Type="Self.student" Multiplicity="0..1" />
+    <End Role="stud_qualification" Type="Self.stud_qualification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="roll_no" />
+      </Principal>
+      <Dependent Role="stud_qualification">
+        <PropertyRef Name="roll_no" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CompanyDataModelStoreContainer">
+    <EntitySet Name="stud_qualification" EntityType="Self.stud_qualification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__stud_qual__roll___3B75D760" Association="Self.FK__stud_qual__roll___3B75D760">
+      <End Role="student" EntitySet="student" />
+      <End Role="stud_qualification" EntitySet="stud_qualification" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
